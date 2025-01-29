@@ -67,7 +67,7 @@ d3.csv("data/disasters.csv") //ASYNCHRONOUS LOADING
       .selectAll("line")
       .data(years)
       .enter()
-      .append("text")
+      .append("line")
       .attr("stroke", "black")
       .attr("stroke-width", 2)
       .attr("x1", timelineX1)
@@ -98,6 +98,39 @@ d3.csv("data/disasters.csv") //ASYNCHRONOUS LOADING
     // }
     //	stroke: gray
     //	stroke-width: 2
+    svg
+      .selectAll("circle")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("opacity", 0.8)
+      .attr("r", (d) => (d.cost / 165) * 100 + 5)
+      .attr(
+        "cx",
+        (d) =>
+          (d.daysFromYrStart / 365) * (timelineX2 - timelineX1) + timelineX1
+      )
+      .attr(
+        "cy",
+        (d) => (2017 - d.year) * gapBetweenTimelines + startOfTimelinesY
+      )
+      .attr("fill", (d) => {
+        if (d.category == "tropical-cyclone") {
+          return "#081d58";
+        } else if (d.category == "drought-wildfire") {
+          return "#ffffd9";
+        } else if (d.category == "severe-storm") {
+          return "#c7e9b4";
+        } else if (d.category == "winter-storm-freeze") {
+          return "#081d58";
+        } else if (d.category == "flooding") {
+          return "#41b6c4";
+        } else {
+          return "#000000";
+        }
+      })
+      .attr("stroke", "gray")
+      .attr("stroke-width", 2);
   })
   .catch((error) => {
     console.error("Error loading the data");
